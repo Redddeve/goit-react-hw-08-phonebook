@@ -1,18 +1,47 @@
-import ContactForm from 'components/ContactForm/ContactForm';
-import ContactList from 'components/ContactList/ContactList';
-import Filter from 'components/Filter/Filter';
-import { Wrapper } from 'styles/App.styled';
+import { Route, Routes } from 'react-router-dom';
+import { lazy, useEffect } from 'react';
+import Layout from 'components/Layout';
+import { useDispatch, useSelector } from 'react-redux';
+import { refreshThunk } from 'redux/auth/operations';
+import { PrivateRoute } from 'components/Routes/PrivateRoute';
+import { selectisRefreshing } from 'redux/auth/selectors';
+import Loader from 'components/Loader';
 
 const App = () => {
-  return (
-    <Wrapper>
-      <h1>Phonebook</h1>
-      <ContactForm />
+  const Homepage = lazy(() => import('pages/HomePage'));
+  const RegisterPage = lazy(() => import('pages/RegisterPage'));
+  const LoginPage = lazy(() => import('pages/LoginPage'));
+  const Contacts = lazy(() => import('pages/Contacts'));
+  const PageNotFound = lazy(() => import('pages/PageNotFound'));
 
-      <h2>Contacts</h2>
-      <Filter />
-      <ContactList />
-    </Wrapper>
+  const dispatch = useDispatch();
+  const isRefreshing = useSelector(selectisRefreshing);
+
+  useEffect(() => {
+    dispatch(refreshThunk());
+  }, [dispatch]);
+
+  return !isRefreshing ? (
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Homepage />} />
+          <Route
+            path="contacts"
+            element={
+              <PrivateRoute>
+                <Contacts />
+              </PrivateRoute>
+            }
+          />
+          <Route path="register" element={<RegisterPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Route>
+      </Routes>
+    </>
+  ) : (
+    <Loader />
   );
 };
 

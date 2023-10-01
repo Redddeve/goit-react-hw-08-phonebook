@@ -3,12 +3,15 @@ import { createGlobalStyle } from 'styled-components';
 export const GlobalStyles = createGlobalStyle`
 body{
   padding: 20px;
+
+  font-size: 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #e7ecf2;
+  color: #010101;
 }
 
 code {
@@ -34,8 +37,6 @@ div {
   display: flex;
   flex-direction: column;
   justify-items: center;
-  align-items: flex-start;
-  font-size: 20px;
-  color: #010101;
+  /* align-items: flex-start; */
 }
 `;

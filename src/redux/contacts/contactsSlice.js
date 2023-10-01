@@ -10,25 +10,25 @@ const initialState = {
   filter: '',
 };
 
-const contactsSlice = createSlice({
+const slice = createSlice({
   name: 'contacts',
   initialState,
   reducers: {
-    updateFilter(state, action) {
-      state.filter = action.payload;
+    updateFilter(state, { payload }) {
+      state.filter = payload;
     },
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchContacts.fulfilled, (state, action) => {
-        state.contacts.items.push(...action.payload);
+      .addCase(fetchContacts.fulfilled, (state, { payload }) => {
+        state.contacts.items = payload;
       })
-      .addCase(addContact.fulfilled, (state, action) => {
-        state.contacts.items.push(action.payload);
+      .addCase(addContact.fulfilled, (state, { payload }) => {
+        state.contacts.items.push(payload);
       })
-      .addCase(deleteContact.fulfilled, (state, action) => {
+      .addCase(deleteContact.fulfilled, (state, { payload }) => {
         state.contacts.items = state.contacts.items.filter(
-          cont => cont.id !== action.payload
+          cont => cont.id !== payload
         );
       })
       .addMatcher(
@@ -37,7 +37,7 @@ const contactsSlice = createSlice({
           addContact.fulfilled,
           deleteContact.fulfilled
         ),
-        (state, action) => {
+        state => {
           state.contacts.isLoading = false;
         }
       )
@@ -47,7 +47,7 @@ const contactsSlice = createSlice({
           addContact.pending,
           deleteContact.pending
         ),
-        (state, action) => {
+        state => {
           state.contacts.isLoading = true;
           state.contacts.error = null;
         }
@@ -58,13 +58,13 @@ const contactsSlice = createSlice({
           addContact.rejected,
           deleteContact.rejected
         ),
-        (state, action) => {
-          state.contacts.error = action.payload;
+        (state, { payload }) => {
+          state.contacts.error = payload;
           state.contacts.isLoading = false;
         }
       );
   },
 });
 
-export const { updateFilter } = contactsSlice.actions;
-export default contactsSlice.reducer;
+export const { updateFilter } = slice.actions;
+export default slice.reducer;

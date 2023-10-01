@@ -1,8 +1,6 @@
-import { StyledButton, StyledForm, StyledLabel } from './ContactForm.styled';
-import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts } from 'redux/selectors';
-import { addContact } from 'redux/operations';
+import { selectContacts } from 'redux/contacts/selectors';
+import { addContact } from 'redux/contacts/operations';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
@@ -12,20 +10,19 @@ const ContactForm = () => {
     e.preventDefault();
     const form = e.currentTarget;
     const name = form.elements.name.value;
-    const phone = form.elements.number.value;
+    const number = form.elements.number.value;
 
     if (name === '') {
       form.reset();
       return;
     }
     const contact = {
-      id: nanoid(),
       name,
-      phone,
+      number,
     };
-    const contExist = contacts.find(
+    const contExist = contacts?.find(
       cont =>
-        cont.name.toLowerCase() === name.toLowerCase() || cont.number === phone
+        cont.name.toLowerCase() === name.toLowerCase() || cont.number === number
     );
     if (contExist) {
       alert(`${name} is already in contacts`);
@@ -36,18 +33,25 @@ const ContactForm = () => {
   };
 
   return (
-    <StyledForm onSubmit={onSubmit}>
-      <StyledLabel htmlFor="name">Name</StyledLabel>
+    <form
+      className="flex flex-col gap-2.5 w-[500px] p-2.5 shadow-[0_0_5px_0_rgba(0,0,0,0.3)] mb-10 mt-5"
+      onSubmit={onSubmit}
+    >
+      <label className="w-fit" htmlFor="name">
+        Name
+      </label>
 
       <input
         type="text"
         name="name"
         id="name"
-        pattern="^[a-zA-Zа-яА-Я]+((['-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         required
       />
-      <StyledLabel htmlFor="number">Number</StyledLabel>
+      <label className="w-fit" htmlFor="number">
+        Number
+      </label>
       <input
         type="tel"
         name="number"
@@ -55,8 +59,13 @@ const ContactForm = () => {
         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
         required
       />
-      <StyledButton type="submit">Add contact</StyledButton>
-    </StyledForm>
+      <button
+        className="w-fit py-2 px-8 bg-white cursor-pointer border border-gray-500 rounded-xl hover:text-white hover:bg-teal-800"
+        type="submit"
+      >
+        Add contact
+      </button>
+    </form>
   );
 };
 
