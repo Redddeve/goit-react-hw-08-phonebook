@@ -2,7 +2,7 @@ import { Dropdown } from 'flowbite-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOutUser } from 'redux/auth/operations';
 import { selectIsLoggedIn, selectUser } from 'redux/auth/selectors';
-import { HeaderNav, StyledLink } from 'styledComponents/NavBar.styled';
+import { StyledLink } from 'styledComponents/NavBar.styled';
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ const NavBar = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   return (
     <>
-      <HeaderNav>
+      <nav className="flex items-center justify-between gap-5 p-4 mb-4 shadow-[0_4px_8px_0_rgb(157,158,160)] ">
         <ul className="flex items-center">
           <li>
             <StyledLink to="/">Home</StyledLink>
@@ -41,7 +41,7 @@ const NavBar = () => {
             </Dropdown.Item>
           </Dropdown>
         )}
-      </HeaderNav>
+      </nav>
     </>
   );
 };

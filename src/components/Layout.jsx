@@ -1,19 +1,18 @@
 import { Outlet } from 'react-router-dom';
 import { Suspense } from 'react';
 import Loader from './Loader';
-import { LayoutWrapper, OutletWrapper } from 'styledComponents/Layout.styled';
 import Header from './Header';
 
 const Layout = () => {
   return (
-    <LayoutWrapper>
+    <main className="grid">
       <Header />
-      <OutletWrapper>
+      <div className="p-5">
         <Suspense fallback={<Loader />}>
           <Outlet />
         </Suspense>
-      </OutletWrapper>
-    </LayoutWrapper>
+      </div>
+    </main>
   );
 };
 

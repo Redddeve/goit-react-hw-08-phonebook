@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectContactsObj } from 'redux/contacts/selectors';
 import { deleteContact, fetchContacts } from 'redux/contacts/operations';
 import Loader from 'components/Loader';
-import { toast } from 'react-toastify';
 
 const ContactList = () => {
   const { contacts, loading, error } = useSelector(selectContactsObj);
@@ -19,7 +18,7 @@ const ContactList = () => {
     <>
       <ul className="flex gap-6 flex-col pt-2.5 pb-5">
         {loading && <Loader />}
-        {error && toast.error({ error })}
+        {error && <p>{error}</p>}
         {contacts?.map(cont => (
           <li
             className="flex justify-between items-center min-w-fit max-w-screen-sm p-1.5 shadow-[0_0_5px_0_rgba(0,0,0,0.3)]"

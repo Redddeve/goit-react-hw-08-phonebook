@@ -31,6 +31,7 @@ export const logInUser = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const { data } = await axios.post('users/login', credentials);
+      setToken(data.token);
       return data;
     } catch (err) {
       return rejectWithValue(err.message);
